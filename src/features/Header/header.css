@@ -1,0 +1,13 @@
+header{
+    border-bottom:1px solid #000000 ;
+    padding:0 10px 10px 10px;
+    margin-bottom: 12px;
+}
+.company_name{
+    margin: 0 !important;
+    padding-bottom: 5px;
+}
+.header_content{
+    display: flex;
+    justify-content: space-between;
+}
