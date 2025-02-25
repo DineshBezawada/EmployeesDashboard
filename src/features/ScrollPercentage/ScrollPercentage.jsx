@@ -1,47 +1,56 @@
 import { useEffect, useRef, useState } from "react";
 
 const ScrollPercentage = () => {
-    const [flag, setFlag] = useState(false); 
-    const cardRef = useRef(null); 
-
+  const [isCardVisible, setIsCardVisible] = useState(false);
+  const cardRef = useRef(null);
+ console.log(isCardVisible,"isCardVisible");
+  useEffect(() => {
     const handleScroll = () => {
-        if (cardRef.current) {
-          const card = cardRef.current;
-          const scrollHeight = card.scrollHeight;
-          const scrollTop = card.scrollTop;
-          const threshold = scrollHeight * 0.6; 
-          if (scrollTop > threshold) {
-            setFlag(true);
-          } else {
-            setFlag(false);
-          }
+      if (cardRef.current) {
+        const cardRect = cardRef.current.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const cardVisiblePercentage = (viewportHeight - cardRect.top) / cardRect.height;
+        console.log(cardRect,"cardRect");
+        console.log(viewportHeight,"viewportHeight");
+        console.log(cardVisiblePercentage,"cardVisiblePercentage");
+
+        if (cardVisiblePercentage >= 0.6 && !isCardVisible) {
+          setIsCardVisible(true);
+        } else if (cardVisiblePercentage < 0.6 && isCardVisible) {
+          setIsCardVisible(false);
         }
-      };
-    
-      useEffect(() => {
-        const card = cardRef.current;
-        if (card) {
-          card.addEventListener('scroll', handleScroll);
-        }
-        return () => {
-          if (card) {
-            card.removeEventListener('scroll', handleScroll);
-          }
-        };
-      }, []);  
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    // handleScroll(); 
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isCardVisible]);
 
   return (
-    <div
-    ref={cardRef}
-    className="card"
-    style={{ overflowY: 'scroll', height: '300px' }} 
-  >
-    <div>Flag status: {flag ? 'True' : 'False'}</div>
-    <div style={{ height: '800px' }}>
-      Scroll this content.
+    <>
+    <div style={{ height: '100vh', backgroundColor: 'lightblue' }}>
+      
+      Header
     </div>
-    
-  </div>
+    <div ref={cardRef} style={{ padding: '20px', border: '1px solid gray', margin: '20px' }}>
+ 
+      Card Content
+      <p>Card is 60% visible!</p>
+      <p>Card is 60% visible!</p>
+      <p>Card is 60% visible!</p>
+      <p>Card is 60% visible!</p>
+      <p>Card is 60% visible!</p>
+      <p>Card is 60% visible!</p>
+      <p>Card is 60% visible!</p>
+      <p>Card is 60% visible!</p>
+      <p>Card is 60% visible!</p>
+      <p>Card is 60% visible!</p>
+    </div>
+  </>
   );
 };
 export default ScrollPercentage;
