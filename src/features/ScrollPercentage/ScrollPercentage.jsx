@@ -11,9 +11,7 @@ const ScrollPercentage = () => {
         const viewportHeight = window.innerHeight;
         const cardVisiblePercentage = (viewportHeight - cardRect.top) / cardRect.height;
         console.log(cardRect,"cardRect");
-        console.log(viewportHeight,"viewportHeight");
-        console.log(cardVisiblePercentage,"cardVisiblePercentage");
-
+  
         if (cardVisiblePercentage >= 0.6 && !isCardVisible) {
           setIsCardVisible(true);
         } else if (cardVisiblePercentage < 0.6 && isCardVisible) {
